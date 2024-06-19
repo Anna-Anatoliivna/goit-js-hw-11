@@ -20,7 +20,28 @@ function getImages(url) {
 };
 
 const refs = {
-  input: document.querySelector(input[(name = 'query')]),
+  form: document.querySelector('.form-request'),
   btn: document.querySelector('.btn'),
-  gallery: document.querySelector('.gallery'),
+  ulElem: document.querySelector('.gallery'),
 };
+
+// function imageTamplate(image) {
+//   return `<li class="gallery-item">
+//             <a class="gallery-link" href=${image.original}>
+//                 <img class="gallery-image"
+//                 src=${image.preview} 
+//                 alt=${image.description}
+//                 title=${image.description} />
+//             </a>
+//         </li>`;
+// }
+// function imagesTamplate(arr) {
+//   return arr.map(imageTamplate).join('');
+// }
+// const markup = imagesTamplate(images);
+// ulElem.innerHTML = markup;
+
+// const options = {
+//   captionDelay: 250,
+// };
+// const lightbox = new SimpleLightbox('.gallery a', options);
