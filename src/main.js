@@ -17,19 +17,49 @@ function getImages(url) {
     if (!res.ok) throw new Error(res.status);
     return res.json();
   });
-};
+}
 
 const refs = {
-  form: document.querySelector('.form-request'),
-  btn: document.querySelector('.btn'),
+  formEl: document.forms[0],
+  btnEl: document.querySelector('.btn'),
   ulElem: document.querySelector('.gallery'),
 };
+
+refs.formEl.addEventListener('submit', e => {
+  e.preventDefault();
+  const usertext = e.currentTarget.elements.query.value.trim();
+  if (!usertext) {
+    iziToast.warning({
+      position: `topRight`,
+      title: `Attention`,
+      message: 'Search field must not be empty. Please try again!',
+    });
+    return;
+  }
+  params.set('q', usertext);
+  const userUrl = 'https://pixabay.com/api/?' + params;
+
+  getImages(userUrl)
+    .then(images => {
+      console.log(images);
+      if (!images.hits.length) return Promise.reject('error');
+    })
+
+    .catch(error => {
+      iziToast.error({
+        position: `topRight`,
+        title: `error`,
+        message:
+          'Sorry, there are no images matching your search query. Please try again!',
+      });
+    });
+});
 
 // function imageTamplate(image) {
 //   return `<li class="gallery-item">
 //             <a class="gallery-link" href=${image.original}>
 //                 <img class="gallery-image"
-//                 src=${image.preview} 
+//                 src=${image.preview}
 //                 alt=${image.description}
 //                 title=${image.description} />
 //             </a>
