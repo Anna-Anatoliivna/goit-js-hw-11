@@ -35,21 +35,19 @@ refs.formEl.addEventListener('submit', e => {
     });
     return;
   }
+  refs.loader.classList.remove('js-hidden');
   params.set('q', userText);
   const userUrl = 'https://pixabay.com/api/?' + params;
 
   getImages(userUrl)
     .then(images => {
-      refs.loader.classList.remove('js-hidden');
-      setTimeout(() => {
-        refs.loader.classList.add('js-hidden');
-        console.log(images);
-        if (!images.hits.length) return Promise.reject('error');
-        const markup = imagesTamplate(images.hits);
-        refs.ulElem.innerHTML = markup;
-        const lightbox = new SimpleLightbox('.gallery a', options);
-        lightbox.refresh();
-      }, 2000);
+      refs.loader.classList.add('js-hidden');
+      // console.log(images);
+      if (!images.hits.length) return Promise.reject('error');
+      const markup = imagesTamplate(images.hits);
+      refs.ulElem.innerHTML = markup;
+      const lightbox = new SimpleLightbox('.gallery a', options);
+      lightbox.refresh();
     })
     .catch(error => {
       iziToast.error({
