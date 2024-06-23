@@ -38,12 +38,13 @@ refs.formEl.addEventListener('submit', e => {
   refs.loader.classList.remove('js-hidden');
   params.set('q', userText);
   const userUrl = 'https://pixabay.com/api/?' + params;
-
+  refs.formEl.reset();
   getImages(userUrl)
     .then(images => {
       refs.loader.classList.add('js-hidden');
       // console.log(images);
       if (!images.hits.length) return Promise.reject('error');
+
       const markup = imagesTamplate(images.hits);
       refs.ulElem.innerHTML = markup;
       const lightbox = new SimpleLightbox('.gallery a', options);
@@ -56,5 +57,6 @@ refs.formEl.addEventListener('submit', e => {
         message:
           'Sorry, there are no images matching your search query. Please try again!',
       });
+      refs.ulElem.innerHTML = '';
     });
 });
